@@ -1,0 +1,60 @@
+﻿<Project xmlns="http://schemas.microsoft.com/developer/msbuild/2003">
+    <PropertyGroup>
+        <ProjectGuid>{BE24BB8E-3E1F-485C-A4B3-ECB2BE97BCE7}</ProjectGuid>
+    </PropertyGroup>
+    <ItemGroup>
+        <Projects Include="client\TestPipeClient.dproj">
+            <Dependencies/>
+        </Projects>
+        <Projects Include="server\TestPipeServer.dproj">
+            <Dependencies/>
+        </Projects>
+        <Projects Include="service\pipeservice.dproj">
+            <Dependencies/>
+        </Projects>
+    </ItemGroup>
+    <ProjectExtensions>
+        <Borland.Personality>Default.Personality.12</Borland.Personality>
+        <Borland.ProjectType/>
+        <BorlandProject>
+            <Default.Personality/>
+        </BorlandProject>
+    </ProjectExtensions>
+    <Target Name="TestPipeClient">
+        <MSBuild Projects="client\TestPipeClient.dproj"/>
+    </Target>
+    <Target Name="TestPipeClient:Clean">
+        <MSBuild Projects="client\TestPipeClient.dproj" Targets="Clean"/>
+    </Target>
+    <Target Name="TestPipeClient:Make">
+        <MSBuild Projects="client\TestPipeClient.dproj" Targets="Make"/>
+    </Target>
+    <Target Name="TestPipeServer">
+        <MSBuild Projects="server\TestPipeServer.dproj"/>
+    </Target>
+    <Target Name="TestPipeServer:Clean">
+        <MSBuild Projects="server\TestPipeServer.dproj" Targets="Clean"/>
+    </Target>
+    <Target Name="TestPipeServer:Make">
+        <MSBuild Projects="server\TestPipeServer.dproj" Targets="Make"/>
+    </Target>
+    <Target Name="pipeservice">
+        <MSBuild Projects="service\pipeservice.dproj"/>
+    </Target>
+    <Target Name="pipeservice:Clean">
+        <MSBuild Projects="service\pipeservice.dproj" Targets="Clean"/>
+    </Target>
+    <Target Name="pipeservice:Make">
+        <MSBuild Projects="service\pipeservice.dproj" Targets="Make"/>
+    </Target>
+    <Target Name="Build">
+        <CallTarget Targets="TestPipeClient;TestPipeServer;pipeservice"/>
+    </Target>
+    <Target Name="Clean">
+        <CallTarget Targets="TestPipeClient:Clean;TestPipeServer:Clean;pipeservice:Clean"/>
+    </Target>
+    <Target Name="Make">
+        <CallTarget Targets="TestPipeClient:Make;TestPipeServer:Make;pipeservice:Make"/>
+    </Target>
+    <Import Project="$(BDS)\Bin\CodeGear.Group.Targets" Condition="Exists('$(BDS)\Bin\CodeGear.Group.Targets')"/>
+</Project>
