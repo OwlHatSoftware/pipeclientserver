@@ -47,7 +47,7 @@ class procedure TEventHandlers.DoPipeSent(Sender: TObject; Pipe: HPIPE;
 var
   Answer: PAnsiChar;
   Param: DWORD;
-  aPipe: Int32;
+  aPipe: integer;
 begin
   if Assigned(fCallBack) then
   begin
@@ -69,7 +69,7 @@ class procedure TEventHandlers.DoPipeDisconnect(Sender: TObject; Pipe: HPIPE);
 var
   Answer: PAnsiChar;
   Param: DWORD;
-  aPipe: Int32;
+  aPipe: integer;
 begin
   if Assigned(fCallBack) then
   begin
@@ -96,7 +96,7 @@ var
   Answer: PAnsiChar;
   Param: DWORD;
   Reader: TStreamReader;
-  aPipe: Int32;
+  aPipe: integer;
 begin
   if Assigned(fCallBack) then
   begin
@@ -128,7 +128,7 @@ var
   s: AnsiString;
   Answer: PAnsiChar;
   Param: DWORD;
-  aPipe: Int32;
+  aPipe: integer;
 begin
   if Assigned(fCallBack) then
   begin

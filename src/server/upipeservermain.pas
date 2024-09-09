@@ -3,11 +3,10 @@ unit upipeservermain;
 interface
 
 uses
-  system.Types, system.SysUtils, system.Classes
-  ,pipes //the famous unit of Russel Libby modified by Francis Piette
-  ,upipetypes //some types and constants for use in this dll's
-//  ,uhelperfuncs
-  ; //some helper functions and procedures
+  system.Types, system.SysUtils, system.Classes,
+  pipes, // the famous unit of Russel Libby modified by Francis Piette
+  upipetypes; // some types and constants for use in this dll's
+// uhelperfuncs; //some helper functions and procedures
 
 function InitPipeServer(PipeName: PAnsiChar; CallBack: TCallBackFunction)
   : PAnsiChar; stdcall;
@@ -41,7 +40,7 @@ var
   fPipeServer: TPipeServer;
   fCallBack: TCallBackFunction;
 
-// *****************************************************************************
+  // *****************************************************************************
 class procedure TEventHandlers.DoPipeSent(Sender: TObject; Pipe: HPIPE;
   Size: DWORD);
 // *****************************************************************************
@@ -54,13 +53,13 @@ class procedure TEventHandlers.DoPipeSent(Sender: TObject; Pipe: HPIPE;
 var
   Answer: PAnsiChar;
   Param: DWORD;
-  LPipe: Int32;
+  LPipe: integer;
 begin
   if Assigned(fCallBack) then
   begin
     Answer := nil;
     Param := Size;
-    LPipe := Int32(Pipe);
+    LPipe := integer(Pipe);
     fCallBack(MSG_PIPESENT, LPipe, Answer, Param);
   end;
 end;
@@ -76,14 +75,14 @@ class procedure TEventHandlers.DoPipeConnect(Sender: TObject; Pipe: HPIPE);
 var
   Answer: PAnsiChar;
   Param: DWORD;
-  LPipe: Int32;
+  LPipe: integer;
 begin
   if Assigned(fCallBack) then
   begin
     Answer := PAnsiChar(AnsiString(Format(StrClientConnected,
       [integer(Pipe)])));
     Param := Length(StrClientConnected);
-    LPipe := Int32(Pipe);
+    LPipe := integer(Pipe);
     fCallBack(MSG_PIPECONNECT, LPipe, Answer, Param);
   end;
 end;
@@ -99,14 +98,14 @@ class procedure TEventHandlers.DoPipeDisconnect(Sender: TObject; Pipe: HPIPE);
 var
   Answer: PAnsiChar;
   Param: DWORD;
-  LPipe: Int32;
+  LPipe: integer;
 begin
   if Assigned(fCallBack) then
   begin
     Answer := PAnsiChar(AnsiString(Format(StrClientDisconnected,
       [integer(Pipe)])));
     Param := Length(StrClientDisconnected);
-    LPipe := Int32(Pipe);
+    LPipe := integer(Pipe);
     fCallBack(MSG_PIPEDISCONNECT, LPipe, Answer, Param);
   end;
 end;
@@ -126,7 +125,7 @@ var
   Answer: PAnsiChar;
   Param: DWORD;
   Reader: TStreamReader;
-  LPipe: Int32;
+  LPipe: integer;
 begin
   if Assigned(fCallBack) then
   begin
@@ -135,7 +134,7 @@ begin
       s := Reader.ReadToEnd;
       Answer := PAnsiChar(AnsiString(s));
       Param := Length(s);
-      LPipe:= Int32(Pipe);
+      LPipe := integer(Pipe);
       fCallBack(MSG_PIPEMESSAGE, LPipe, Answer, Param);
     finally
       Reader.Free;
@@ -158,7 +157,7 @@ var
   s: AnsiString;
   Answer: PAnsiChar;
   Param: DWORD;
-  LPipe: Int32;
+  LPipe: integer;
 begin
   if Assigned(fCallBack) then
   begin
@@ -170,7 +169,7 @@ begin
     end;
     Answer := PAnsiChar(AnsiString(s));
     Param := ErrorCode;
-    LPipe:= Int32(Pipe);
+    LPipe := integer(Pipe);
     fCallBack(MSG_PIPEERROR, LPipe, Answer, Param);
   end;
 end;
@@ -236,23 +235,24 @@ procedure GetConnectedPipeClients; stdcall;
 // * connected clients as a delimited string
 // *****************************************************************************
 const
-  Delimiter=';';
+  Delimiter = ';';
 var
-  i: Int32;
+  i: integer;
   s: string;
   Answer: PAnsiChar;
   Param: DWORD;
 begin
   if Assigned(fPipeServer) and Assigned(fCallBack) then
   begin
-    s:='';
-    for i:=0 to fPipeServer.ClientCount-1 do
-      if (i<>fPipeServer.ClientCount-1) then
-        s:=s+IntToStr(fPipeServer.Clients[i])+Delimiter
-      else s:=s+IntToStr(fPipeServer.Clients[i]);
-    Answer:=PAnsiChar(AnsiString(s));
-    Param:=Length(s);
-    i:=-1;
+    s := '';
+    for i := 0 to fPipeServer.ClientCount - 1 do
+      if (i <> fPipeServer.ClientCount - 1) then
+        s := s + IntToStr(fPipeServer.Clients[i]) + Delimiter
+      else
+        s := s + IntToStr(fPipeServer.Clients[i]);
+    Answer := PAnsiChar(AnsiString(s));
+    Param := Length(s);
+    i := -1;
     fCallBack(MSG_GETPIPECLIENTS, i, Answer, Param);
   end;
 end;
