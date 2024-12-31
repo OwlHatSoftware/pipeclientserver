@@ -9,14 +9,15 @@ uses
 
   function InitPipeClient(PipeName: PAnsiChar; CallBack: TCallBackFunction)
   : PAnsiChar; stdcall;
+  procedure DonePipeClient; stdcall;
   function ConnectPipeClient(WaitTime: integer): boolean; stdcall;
-  procedure PipeClientMessageToServer(Msg: PAnsiChar); stdcall;
+  procedure PipeClientMessageToServer(Msg: PAnsiChar; ATimeOut: integer = 20000); stdcall;
 
 implementation
 
 resourcestring
-  StrClientConnected = 'Client %d Connected!';
-  StrClientDisconnected = 'Client %d Disconnected!';
+  StrClientConnected = '{"client":%d, "connected": 1}';
+  StrClientDisconnected = '{"client":%d, "connected": 0}';
 
 type
   // dummy class to hold the event handlers
@@ -78,6 +79,7 @@ begin
     Param := Length(StrClientDisconnected);
     aPipe:=integer(Pipe);
     fCallBack(MSG_PIPEDISCONNECT, aPipe, Answer, Param);
+    fPipeClient.FlushPipeBuffers;
   end;
 end;
 
@@ -166,6 +168,12 @@ begin
   Result := PAnsiChar(AnsiString(pipes.ComputerName));
 end;
 
+procedure DonePipeClient; stdcall;
+begin
+  fCallBack := nil;
+  fPipeClient.Free;
+end;
+
 // *****************************************************************************
 function ConnectPipeClient(WaitTime: integer): boolean; stdcall;
 // *****************************************************************************
@@ -183,7 +191,7 @@ begin
 end;
 
 // *****************************************************************************
-procedure PipeClientMessageToServer(Msg: PAnsiChar); stdcall;
+procedure PipeClientMessageToServer(Msg: PAnsiChar; ATimeOut: integer); stdcall;
 // *****************************************************************************
 // * Sends a message to the Server
 // * ---------------------------------------------------------------------------
@@ -199,13 +207,14 @@ begin
     m := StrPas(Msg);
     MemStream := TMemoryStream.Create;
     try
+      Writer := TStreamWriter.Create(MemStream, TEncoding.Unicode);
       try
-        Writer := TStreamWriter.Create(MemStream, TEncoding.Unicode);
         Writer.Write(m);
       finally
         Writer.Free
       end;
       fPipeClient.SendStream(MemStream);
+      fPipeClient.WaitForReply(ATimeOut);
     finally
       MemStream.Free;
     end; 

@@ -197,6 +197,8 @@ end;
 
 procedure TfrmTestPipeServer.btnStartServerClick(Sender: TObject);
 begin
+  Edit1.Text := System.AnsiStrings.StrPas
+    (InitPipeServer(PAnsiChar(AnsiString(Edit2.Text)), @CallBack));
   if StartPipeServer() then
   begin
     Memo1.Lines.Insert(0, 'PipeServer Started!');
@@ -217,6 +219,7 @@ begin
   end
   else
     Memo1.Lines.Insert(0, 'Unable to -STOP- PipeServer!');
+  DonePipeServer();
 end;
 
 procedure TfrmTestPipeServer.btnBroadCastClick(Sender: TObject);
@@ -257,8 +260,7 @@ begin
   Edit2.Text := 'PipeServer';
   btnStartServer.Enabled := True;
   btnStopServer.Enabled := False;
-  Edit1.Text := System.AnsiStrings.StrPas
-    (InitPipeServer(PAnsiChar(AnsiString(Edit2.Text)), @CallBack));
+
 end;
 
 procedure TfrmTestPipeServer.FormDestroy(Sender: TObject);

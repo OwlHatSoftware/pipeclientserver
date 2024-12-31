@@ -22,6 +22,7 @@ object frmTestPipeClient: TfrmTestPipeClient
     Caption = 'Panel1'
     ShowCaption = False
     TabOrder = 0
+    ExplicitWidth = 455
     DesignSize = (
       461
       75)
@@ -56,6 +57,7 @@ object frmTestPipeClient: TfrmTestPipeClient
       Caption = 'Connect'
       TabOrder = 1
       OnClick = btnConnectClick
+      ExplicitLeft = 322
     end
     object Edit2: TEdit
       Left = 108
@@ -74,6 +76,8 @@ object frmTestPipeClient: TfrmTestPipeClient
     Align = alClient
     Caption = 'Message To Send'
     TabOrder = 1
+    ExplicitWidth = 455
+    ExplicitHeight = 265
     object Panel2: TPanel
       Left = 248
       Top = 15
@@ -84,6 +88,8 @@ object frmTestPipeClient: TfrmTestPipeClient
       Caption = 'Panel2'
       ShowCaption = False
       TabOrder = 0
+      ExplicitLeft = 242
+      ExplicitHeight = 248
       DesignSize = (
         211
         265)
@@ -96,6 +102,7 @@ object frmTestPipeClient: TfrmTestPipeClient
         Caption = 'Send'
         TabOrder = 0
         OnClick = SendButtonClick
+        ExplicitTop = 203
       end
       object GroupBox3: TGroupBox
         Left = 6
@@ -109,6 +116,7 @@ object frmTestPipeClient: TfrmTestPipeClient
         Anchors = [akLeft, akTop, akBottom]
         Caption = 'Clients'
         TabOrder = 1
+        ExplicitHeight = 157
         object liClients: TListBox
           AlignWithMargins = True
           Left = 5
@@ -119,6 +127,7 @@ object frmTestPipeClient: TfrmTestPipeClient
           ItemHeight = 13
           MultiSelect = True
           TabOrder = 0
+          ExplicitHeight = 134
         end
       end
       object RadioGroup1: TRadioGroup
@@ -144,6 +153,8 @@ object frmTestPipeClient: TfrmTestPipeClient
       Lines.Strings = (
         'Memo2')
       TabOrder = 1
+      ExplicitWidth = 240
+      ExplicitHeight = 248
     end
   end
   object GroupBox2: TGroupBox
@@ -154,6 +165,8 @@ object frmTestPipeClient: TfrmTestPipeClient
     Align = alBottom
     Caption = 'Messages'
     TabOrder = 2
+    ExplicitTop = 340
+    ExplicitWidth = 455
     object Memo1: TMemo
       Left = 2
       Top = 15
@@ -163,6 +176,7 @@ object frmTestPipeClient: TfrmTestPipeClient
       Lines.Strings = (
         'Memo1')
       TabOrder = 0
+      ExplicitWidth = 451
     end
   end
 end

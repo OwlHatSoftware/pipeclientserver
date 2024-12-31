@@ -20,8 +20,8 @@ procedure DonePipeServer(); stdcall;
 implementation
 
 resourcestring
-  StrClientConnected = 'Client %d Connected!';
-  StrClientDisconnected = 'Client %d Disconnected!';
+  StrClientConnected = '{"client":%d, "connected": 1}';
+  StrClientDisconnected = '{"client":%d, "connected": 0}';
 
 type
   // dummy class to hold the event handlers

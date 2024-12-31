@@ -21,6 +21,7 @@ uses
 
 exports
   InitPipeClient,
+  DonePipeClient,
   ConnectPipeClient,
   PipeClientMessageToServer;
 begin
